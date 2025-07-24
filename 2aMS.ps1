@@ -8,9 +8,9 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass
 function Show-Header {
     param([string]$Title)
     Write-Host "`n" -ForegroundColor Green
-    Write-Host "=" * 60 -ForegroundColor Green
-    Write-Host "  $Title" -ForegroundColor Yellow
-    Write-Host "=" * 60 -ForegroundColor Green
+    Write-Host "=====================================================" -ForegroundColor Green
+    Write-Host "        $Title" -ForegroundColor DarkRed -BackgroundColor White
+    Write-Host "=====================================================" -ForegroundColor Green
     Write-Host ""
 }
 
@@ -240,13 +240,13 @@ function Start-ContinuousMonitoring {
 # Menu principal
 function Show-Menu {
     Clear-Host
-    Write-Host "🤖 AGENTE AUTONOMO DE MONITORAMENTO DE SISTEMA (2aMS)" -ForegroundColor Cyan
-    Write-Host "=" * 50 -ForegroundColor Green
+    Write-Host "🤖 AGENTE AUTONOMO DE MONITORAMENTO DE SISTEMA (2aMS)" -ForegroundColor DarkRed -BackgroundColor White
+    Write-Host "=====================================================" -ForegroundColor Green
     Write-Host "1. Executar diagnostico completo (uma vez)" -ForegroundColor White
     Write-Host "2. Iniciar monitoramento continuo (30)" -ForegroundColor White
     Write-Host "3. Iniciar monitoramento continuo (60)" -ForegroundColor White
     Write-Host "4. Sair" -ForegroundColor White
-    Write-Host "=" * 50 -ForegroundColor Green
+    Write-Host "=====================================================" -ForegroundColor Green
     
     $choice = Read-Host "Escolha uma opção (1-4)"
     
