@@ -1,4 +1,4 @@
-# 🤖 Agente Autônomo de Monitoramento de Sistema
+# 🤖 Agente Autônomo de Monitoramento de Sistema (2aMS)
 
 Um agente inteligente em PowerShell que coleta informações completas sobre o status da máquina de forma autônoma.
 
@@ -53,7 +53,7 @@ O agente coleta automaticamente as seguintes informações:
 
 ### Execução Simples
 ```powershell
-.\bot.ps1
+.\2aMS.ps1
 ```
 
 ### Opções Disponíveis
