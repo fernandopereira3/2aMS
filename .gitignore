@@ -1,0 +1,110 @@
+# Arquivos de Log do Sistema
+*.log
+system_status_*.log
+
+# Arquivos Temporários
+*.tmp
+*.temp
+*~
+
+# Backups
+*.bak
+*.backup
+*_backup_*
+Downloads_Backup_*
+
+# Arquivos de Sistema Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Arquivos de Sistema macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Diretórios de Cache
+.cache/
+cache/
+
+# Arquivos de Configuração Local
+config.local.*
+settings.local.*
+
+# Arquivos de Saída/Relatórios
+reports/
+output/
+*.html
+*.csv
+*.xml
+
+# Arquivos de Credenciais
+*.key
+*.pem
+*.p12
+*.pfx
+credentials.*
+secrets.*
+
+# Arquivos de Debug
+debug.log
+trace.log
+error.log
+
+# Arquivos de Performance
+performance_*.txt
+benchmark_*.txt
+
+# Diretórios de Trabalho Temporário
+temp/
+tmp/
+work/
+
+# Arquivos de Processo
+*.pid
+*.lock
+
+# Arquivos de Dados Sensíveis
+*.dat
+*.db
+*.sqlite
+
+# Arquivos de Compressão
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos de Node.js (caso seja usado)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de Python (caso seja usado)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Arquivos de Teste
+test_results/
+coverage/
+*.test
+
+# Arquivos de Documentação Gerada
+docs/build/
+docs/_build/
+
+# Arquivos de Monitoramento
+monitoring_data/
+metrics/
+alerts/
