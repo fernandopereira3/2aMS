@@ -6,11 +6,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass
 function Show-Header {
     param([string]$Title)
     Write-Host ""
-    Write-Host "         2aMS v1.0" -ForegroundColor Yellow -BackgroundColor DarkRed
-    Write-Host ""
-    Write-Host "=====================================================" -ForegroundColor Yellow -BackgroundColor DarkRed
-    Write-Host "############# $Title #########" -ForegroundColor Yellow -BackgroundColor DarkRed
-    Write-Host "=====================================================" -ForegroundColor Yellow -BackgroundColor DarkRed
+    Write-Host "$Title" -ForegroundColor Yellow -BackgroundColor DarkRed
     Write-Host ""
 }
 
@@ -186,9 +182,9 @@ function Get-PerformanceInfo {
         # Memory Usage usando CimInstance
         $computerSystem = Get-CimInstance -ClassName Win32_ComputerSystem
         $totalMemory = $computerSystem.TotalPhysicalMemory
-        $availableMemory = (Get-Counter "\Memory\Available MBytes").CounterSamples.CookedValue * 1MB
-        $usedMemory = $totalMemory - $availableMemory
-        $memoryUsagePercent = [math]::Round(($usedMemory / $totalMemory) * 100, 2)
+        #$availableMemory = (Get-Counter "\Memory\Available MBytes").CounterSamples.CookedValue * 1MB
+        #$usedMemory = $totalMemory - $availableMemory
+        #$memoryUsagePercent = [math]::Round(($usedMemory / $totalMemory) * 100, 2)
         
         Write-Host "Uso da Memoria:"
         Write-Host "  Total: $([math]::Round($totalMemory / 1GB, 2)) GB"
