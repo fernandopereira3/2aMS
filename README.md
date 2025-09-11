@@ -1,10 +1,23 @@
 # 🤖 Agente Autônomo de Monitoramento de Sistema (2aMS)
 
-Um agente inteligente em PowerShell que coleta informações completas sobre o status da máquina de forma autônoma.
+Um agente inteligente em PowerShell que coleta informações completas sobre o status da máquina de forma autônoma, agora com **interface gráfica** e funcionalidades avançadas de gerenciamento de sistema.
 
-## 📋 Funcionalidades
+## 🎯 Novidades da Versão Atual
 
-O agente coleta automaticamente as seguintes informações:
+### 🖥️ **Interface Gráfica (GUI)**
+- **Nova interface visual** com botões organizados por categoria
+- **Execução simplificada** - basta clicar nos botões
+- **Feedback em tempo real** com barra de status
+- **Logs automáticos** salvos por usuário e data
+- **Área de resultados** com scroll para visualização completa
+
+### 📦 **Gerenciamento de Programas**
+- **WinGet Integration**: Verificação, atualização e listagem de pacotes
+- **Instalação Automática**: Programas essenciais (Chrome, Office, Steam, etc.)
+- **Importação de Pacotes**: Suporte ao arquivo `packages.json`
+- **Backup de Arquivos**: Salvamento automático no servidor de rede
+
+## 📋 Funcionalidades Completas
 
 ### 🖥️ Sistema Operacional
 - Nome e versão do Windows
@@ -38,11 +51,25 @@ O agente coleta automaticamente as seguintes informações:
 ### 🔄 Atualizações
 - Verificação de atualizações pendentes
 - Status do Windows Update
+- **WinGet**: Atualização automática de todos os pacotes
 
 ### 🛡️ Segurança
 - Status do Windows Defender
 - Proteção em tempo real
 - Última verificação de antivírus
+
+### 📦 **Gerenciamento de Programas (NOVO)**
+- **Verificação do WinGet**: Status de instalação e funcionalidade
+- **Atualização Automática**: `winget upgrade --all` com feedback
+- **Lista de Pacotes**: Visualização de programas instalados via WinGet
+- **Instalação Base**: Programas essenciais (Chrome, Office, Steam, Discord, etc.)
+- **Importação**: Instalação em lote via `packages.json`
+
+### 💾 **Backup e Arquivos (NOVO)**
+- **Save-Files**: Backup automático para servidor de rede
+- **Verificação de Conectividade**: Testa acesso ao servidor antes do backup
+- **Tratamento de Erros**: Mensagens claras para problemas de rede
+- **Organização**: Pastas nomeadas com computador e data
 
 ### 💡 Recomendações Automáticas
 - Alertas de alto uso de CPU/RAM
@@ -51,7 +78,19 @@ O agente coleta automaticamente as seguintes informações:
 
 ## 🚀 Como Usar
 
-### Execução Simples
+### 🎨 **Interface Gráfica (Recomendado)**
+```powershell
+.\2aMS-GUI.ps1
+```
+
+**Funcionalidades da GUI:**
+- **17 botões organizados** por categoria de diagnóstico
+- **Cores diferenciadas** para fácil identificação
+- **Barra de status** com feedback em tempo real
+- **Área de resultados** com scroll automático
+- **Logs automáticos** salvos por usuário e data
+
+### 📝 **Linha de Comando (Clássico)**
 ```powershell
 .\2aMS.ps1
 ```
@@ -63,15 +102,41 @@ O agente coleta automaticamente as seguintes informações:
 3. **Monitoramento Contínuo (60 min)**: Executa análises a cada 60 minutos
 4. **Sair**: Encerra o agente
 
+### 🔧 **Funcionalidades Avançadas**
+
+#### Instalação de Programas Base
+```powershell
+Install-BasePrograms
+```
+**Instala automaticamente:**
+- Google Chrome
+- Microsoft Visual C++ Redistributables (2012, 2013, 2015+)
+- Spotify
+- Discord
+- Steam
+- Microsoft Office
+
+#### Importação de Pacotes
+```powershell
+Import-BasePrograms
+```
+Utiliza o arquivo `packages.json` para instalação em lote.
+
+#### Backup de Arquivos
+```powershell
+Save-Files
+```
+Faz backup para o servidor `ADICIONE O SERVIDOR QUE IRÁ FAZER O BACKUP` com verificação de conectividade.
+
 ### Execução como Administrador
 
 Para obter informações mais detalhadas, execute o PowerShell como Administrador:
 
 1. Clique com botão direito no PowerShell
 2. Selecione "Executar como administrador"
-3. Execute o script: `.\2aMS.ps1`
+3. Execute o script: `.\2aMS.ps1` ou `.\2aMS-GUI.ps1`
 
-## 📁 Arquivos Gerados
+## 📁 Estrutura de Arquivos
 
 O agente gera automaticamente:
 
