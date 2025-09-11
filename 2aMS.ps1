@@ -385,7 +385,7 @@ function Get-SystemFolders {
             "$env:USERPROFILE\OneDrive\Downloads",
             "$env:USERPROFILE\Desktop",
             "$env:USERPROFILE\Documents",
-             "$env:USERPROFILE\Pictures",
+            "$env:USERPROFILE\Pictures",
             "$env:USERPROFILE\Downloads",
             "$env:APPDATA",
             "$env:LOCALAPPDATA"
@@ -483,6 +483,49 @@ function Import-BasePrograms{
    winget import -i .\packages.json --ignore-unavailable 
 }
 
+function Save-Files{
+     Write-Host "Indo ao servidor, verifique que esta tudo certo."
+     $Server = "//10.0.0.2/programas/AUTO_BACKUP"
+     cd $Server
+     $computerName = $env:COMPUTERNAME
+     $dateTime = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+     $folderName = "${computerName}_${dateTime}"
+     Write-Host "Criando pasta $folderName"
+     mkdir $folderName
+     
+     # Definir as pastas do sistema (mesmo array usado na função Get-SystemFolders)
+     $systemFolders = @(
+         "$env:USERPROFILE\Documents",
+         "$env:USERPROFILE\Pictures", 
+         "$env:USERPROFILE\Downloads",
+         "$env:USERPROFILE\Desktop",
+         "$env:USERPROFILE\Favorites",
+         "$env:USERPROFILE\Music",
+         "$env:USERPROFILE\Videos",
+         "$env:USERPROFILE\Contacts",
+         "$env:USERPROFILE\OneDrive",
+         "$env:APPDATA",
+         "$env:LOCALAPPDATA"
+     )
+     
+     Write-Host "Agora copiando arquivos..."
+     # Copiar cada pasta do sistema que existe
+     foreach ($folder in $systemFolders) {
+         if (Test-Path $folder) {
+             try {
+                 $folderName_safe = Split-Path $folder -Leaf
+                 Copy-Item -Path $folder -Destination ".\$folderName\$folderName_safe" -Recurse -Force -Confirm:$false -ErrorAction SilentlyContinue
+                 Write-Host "Copiado: $folder"
+             } catch {
+                 Write-Host "Erro ao copiar: $folder - $($_.Exception.Message)"
+             }
+         } else {
+             Write-Host "Pasta não encontrada: $folder"
+         }
+     }
+     Write-Host "Finalizado, verifique a integridade dos arquivos e se tudo esta certo."
+}
+
 function Show-QuickMenu {
     Clear-Host
     Write-Host "2aMS - MENU RAPIDO"
@@ -558,19 +601,22 @@ function Show-MainMenu {
     Write-Host "2. Monitoramento Continuo (30 min)"
     Write-Host "3. Monitoramento Continuo (60 min)"
     Write-Host "4. Instalar Programas Bases"
-    Write-Host "5. Menu Rapido"
-    Write-Host "6. Configuracoes"
+    Write-Host "5. Salvar Arquivos"
+    Write-Host "6. Menu Rapido"
+    Write-Host "7. Configuracoes"
     Write-Host "0. Sair"
     Write-Host "=================================================="
     
-    $choice = Read-Host "Escolha uma opcao (0-6)"
+    $choice = Read-Host "Escolha uma opcao (0-7)"
     
     switch ($choice) {
         "1" { Start-SystemAgent; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
         "2" { Start-ContinuousMonitoring -IntervalMinutes 30 }
         "3" { Start-ContinuousMonitoring -IntervalMinutes 60 }
         "4" { Install-BasePrograms }
-        "5" { Show-ConfigMenu }
+        "5" { Save-Files }
+        "6" { Show-QuickMenu }
+        "7" { Show-ConfigMenu }
         "0" { 
             Write-Host "Encerrando agente..."
             exit
