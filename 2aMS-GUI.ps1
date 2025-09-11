@@ -36,7 +36,7 @@ function Write-Log {
 # Interface Grafica
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "2aMS - Agente Autonomo de Monitoramento de Sistema"
-$form.Size = New-Object System.Drawing.Size(700, 720)
+$form.Size = New-Object System.Drawing.Size(700, 770)
 $form.StartPosition = "CenterScreen"
 $form.BackColor = [System.Drawing.Color]::FromArgb(240, 240, 240)
 
@@ -175,18 +175,46 @@ $btnWinGetPackages.Size = New-Object System.Drawing.Size($buttonWidth, $buttonHe
 $btnWinGetPackages.BackColor = [System.Drawing.Color]::PaleGreen
 $form.Controls.Add($btnWinGetPackages)
 
-# Area de texto para resultados
+# Sexta linha de botoes (Novas funcionalidades)
+$buttonY6 = $buttonY5 + $buttonSpacing
+
+$btnInstallPrograms = New-Object System.Windows.Forms.Button
+$btnInstallPrograms.Text = "Instalar Programas"
+$btnInstallPrograms.Location = New-Object System.Drawing.Point(20, $buttonY6)
+$btnInstallPrograms.Size = New-Object System.Drawing.Size($buttonWidth, $buttonHeight)
+$btnInstallPrograms.BackColor = [System.Drawing.Color]::Orange
+$btnInstallPrograms.Font = New-Object System.Drawing.Font("Arial", 9, [System.Drawing.FontStyle]::Bold)
+$form.Controls.Add($btnInstallPrograms)
+
+$btnSaveFiles = New-Object System.Windows.Forms.Button
+$btnSaveFiles.Text = "Salvar Arquivos"
+$btnSaveFiles.Location = New-Object System.Drawing.Point(240, $buttonY6)
+$btnSaveFiles.Size = New-Object System.Drawing.Size($buttonWidth, $buttonHeight)
+$btnSaveFiles.BackColor = [System.Drawing.Color]::Crimson
+$btnSaveFiles.ForeColor = [System.Drawing.Color]::White
+$btnSaveFiles.Font = New-Object System.Drawing.Font("Arial", 9, [System.Drawing.FontStyle]::Bold)
+$form.Controls.Add($btnSaveFiles)
+
+$btnImportPrograms = New-Object System.Windows.Forms.Button
+$btnImportPrograms.Text = "Importar Programas"
+$btnImportPrograms.Location = New-Object System.Drawing.Point(460, $buttonY6)
+$btnImportPrograms.Size = New-Object System.Drawing.Size($buttonWidth, $buttonHeight)
+$btnImportPrograms.BackColor = [System.Drawing.Color]::MediumPurple
+$btnImportPrograms.ForeColor = [System.Drawing.Color]::White
+$form.Controls.Add($btnImportPrograms)
+
+# Area de texto para resultados (ajustar posição)
 $textBox = New-Object System.Windows.Forms.TextBox
 $textBox.Multiline = $true
 $textBox.ScrollBars = "Vertical"
-$textBox.Location = New-Object System.Drawing.Point(20, 340)
-$textBox.Size = New-Object System.Drawing.Size(640, 300)
+$textBox.Location = New-Object System.Drawing.Point(20, 390)
+$textBox.Size = New-Object System.Drawing.Size(640, 250)
 $textBox.Font = New-Object System.Drawing.Font("Consolas", 9)
 $textBox.ReadOnly = $true
 $textBox.BackColor = [System.Drawing.Color]::White
 $form.Controls.Add($textBox)
 
-# Barra de status
+# Barra de status (ajustar posição)
 $statusLabel = New-Object System.Windows.Forms.Label
 $statusLabel.Text = "Pronto para executar diagnosticos..."
 $statusLabel.Location = New-Object System.Drawing.Point(20, 650)
@@ -336,6 +364,83 @@ $btnClear.Add_Click({
     Update-Status "Tela limpa. Pronto para novos diagnosticos..."
 })
 
+# Adicionar eventos dos novos botões antes do $btnClear.Add_Click
+$btnInstallPrograms.Add_Click({
+    Update-Status "Instalando programas base..."
+    $textBox.Text = "Iniciando instalação de programas base...`r`n"
+    try {
+        Install-BasePrograms
+        $textBox.Text += "Instalação de programas concluída com sucesso!"
+        Update-Status "Programas instalados com sucesso!"
+    } catch {
+        $textBox.Text += "Erro durante a instalação: $($_.Exception.Message)"
+        Update-Status "Erro na instalação de programas!"
+    }
+})
+
+$btnSaveFiles.Add_Click({
+    Update-Status "Salvando arquivos no servidor..."
+    $textBox.Text = "Iniciando backup de arquivos...`r`n"
+    try {
+        Save-Files
+        $textBox.Text += "Backup de arquivos concluído!"
+        Update-Status "Arquivos salvos com sucesso!"
+    } catch {
+        $textBox.Text += "Erro durante o backup: $($_.Exception.Message)"
+        Update-Status "Erro no backup de arquivos!"
+    }
+})
+
+$btnImportPrograms.Add_Click({
+    Update-Status "Importando programas do packages.json..."
+    $textBox.Text = "Iniciando importação de programas...`r`n"
+    try {
+        Import-BasePrograms
+        $textBox.Text += "Importação de programas concluída!"
+        Update-Status "Programas importados com sucesso!"
+    } catch {
+        $textBox.Text += "Erro durante a importação: $($_.Exception.Message)"
+        Update-Status "Erro na importação de programas!"
+    }
+})
+
+# Adicionar eventos dos botões WinGet (se ainda não existirem)
+$btnWinGetCheck.Add_Click({
+    Update-Status "Verificando instalação do WinGet..."
+    try {
+        $result = Test-WinGetInstalled
+        $textBox.Text = $result
+        Update-Status "Verificação do WinGet concluída!"
+    } catch {
+        $textBox.Text = "Erro ao verificar WinGet: $($_.Exception.Message)"
+        Update-Status "Erro na verificação do WinGet!"
+    }
+})
+
+$btnWinGetUpgrade.Add_Click({
+    Update-Status "Executando WinGet upgrade --all..."
+    try {
+        $result = Start-WinGetUpgrade
+        $textBox.Text = $result
+        Update-Status "Upgrade do WinGet concluído!"
+    } catch {
+        $textBox.Text = "Erro no upgrade: $($_.Exception.Message)"
+        Update-Status "Erro no upgrade do WinGet!"
+    }
+})
+
+$btnWinGetPackages.Add_Click({
+    Update-Status "Listando pacotes WinGet..."
+    try {
+        $result = Get-WinGetPackages
+        $textBox.Text = $result
+        Update-Status "Lista de pacotes WinGet obtida!"
+    } catch {
+        $textBox.Text = "Erro ao listar pacotes: $($_.Exception.Message)"
+        Update-Status "Erro ao listar pacotes WinGet!"
+    }
+})
+
 # Exibir mensagem inicial
 $textBox.Text = @"
 
@@ -358,7 +463,10 @@ Clique nos botoes acima para executar diferentes tipos de diagnosticos:
 11 Verificar WinGet - Verifica se o WinGet esta instalado
 12 WinGet Upgrade --All - Atualiza todos os pacotes
 13 Pacotes WinGet - Lista pacotes instalados via WinGet
-14 Diagnostico Completo - Executa todos os diagnosticos
+14 Instalar Programas - Instala programas base essenciais
+15 Salvar Arquivos - Faz backup dos arquivos para servidor
+16 Importar Programas - Importa programas do packages.json
+17 Diagnostico Completo - Executa todos os diagnosticos
 
 Todos os resultados sao salvos automaticamente em logs.
 "@

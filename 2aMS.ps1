@@ -528,9 +528,7 @@ function Save-Files{
          "$env:USERPROFILE\Music",
          "$env:USERPROFILE\Videos",
          "$env:USERPROFILE\Contacts",
-         "$env:USERPROFILE\OneDrive",
-         "$env:APPDATA",
-         "$env:LOCALAPPDATA"
+         "$env:USERPROFILE\OneDrive"
      )
      
      Write-Host "Agora copiando arquivos..."
