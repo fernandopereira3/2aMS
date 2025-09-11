@@ -486,7 +486,32 @@ function Import-BasePrograms{
 function Save-Files{
      Write-Host "Indo ao servidor, verifique que esta tudo certo."
      $Server = "//10.0.0.2/programas/AUTO_BACKUP"
-     cd $Server
+     
+     # Verificar se o servidor está acessível
+     try {
+         if (-not (Test-Path $Server)) {
+             Write-Host "ERRO: Servidor não encontrado: $Server" 
+             Write-Host "Processo interrompido. Verifique a conexão de rede e tente novamente." 
+             return
+         }
+         
+         cd $Server
+         Write-Host "Conectado ao servidor com sucesso."
+     }
+     catch [System.Management.Automation.ItemNotFoundException] {
+         Write-Host "ERRO: Servidor não encontrado (ObjectNotFound): $Server" 
+         Write-Host "Processo interrompido. Verifique se:" 
+         Write-Host "  - O servidor está online" 
+         Write-Host "  - Você tem permissões de acesso" 
+         Write-Host "  - O caminho de rede está correto" 
+         return
+     }
+     catch {
+         Write-Host "ERRO: Falha ao acessar o servidor: $($_.Exception.Message)"
+         Write-Host "Processo interrompido."
+         return
+     }
+     
      $computerName = $env:COMPUTERNAME
      $dateTime = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
      $folderName = "${computerName}_${dateTime}"
