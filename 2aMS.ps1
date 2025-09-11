@@ -639,7 +639,7 @@ function Show-MainMenu {
         "1" { Start-SystemAgent; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
         "2" { Start-ContinuousMonitoring -IntervalMinutes 30 }
         "3" { Start-ContinuousMonitoring -IntervalMinutes 60 }
-        "4" { Install-BasePrograms }
+        "4" { Import-BasePrograms }
         "5" { Save-Files }
         "6" { Show-QuickMenu }
         "7" { Show-ConfigMenu }
