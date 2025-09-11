@@ -547,6 +547,9 @@ function Save-Files{
          }
      }
      Write-Host "Finalizado, verifique a integridade dos arquivos e se tudo esta certo."
+     Write-Host "Pressione Enter para retornar ao Menu Principal"
+     Read-Host
+     Show-MainMenu
 }
 
 function Show-QuickMenu {
