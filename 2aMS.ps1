@@ -467,6 +467,22 @@ function Start-ContinuousMonitoring {
     }
 }
 
+function Install-BasePrograms {
+    winget install --id Google.Chrome --verbose --silent --force --accept-source-agreements
+    winget install --id Microsoft.VCRedist.2012.x64 --verbose --silent --force --accept-source-agreements
+    winget install --id Microsoft.VCRedist.2013.x64 --verbose --silent --force --accept-source-agreements
+    winget install --id Microsoft.VCRedist.2015+.x64 --verbose --silent --force --accept-source-agreements
+    winget install --id Spotify.Spotify --verbose --silent --force --accept-source-agreements
+    winget install --id Discord.Discord --verbose --silent --force --accept-source-agreements
+    winget install --id RARLab.WinRAR --verbose --silent --force --accept-source-agreements
+    winget install --id Valve.Steam --verbose --silent --force --accept-source-agreements
+    winget install --id Microsoft.Office --verbose --silent --force --accept-source-agreements
+}
+
+function Import-BasePrograms{
+   winget import -i .\packages.json --ignore-unavailable 
+}
+
 function Show-QuickMenu {
     Clear-Host
     Write-Host "2aMS - MENU RAPIDO"
@@ -541,18 +557,19 @@ function Show-MainMenu {
     Write-Host "1. Diagnostico Completo (uma vez)"
     Write-Host "2. Monitoramento Continuo (30 min)"
     Write-Host "3. Monitoramento Continuo (60 min)"
-    Write-Host "4. Menu Rapido"
-    Write-Host "5. Configuracoes"
+    Write-Host "4. Instalar Programas Bases"
+    Write-Host "5. Menu Rapido"
+    Write-Host "6. Configuracoes"
     Write-Host "0. Sair"
     Write-Host "=================================================="
     
-    $choice = Read-Host "Escolha uma opcao (0-5)"
+    $choice = Read-Host "Escolha uma opcao (0-6)"
     
     switch ($choice) {
         "1" { Start-SystemAgent; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
         "2" { Start-ContinuousMonitoring -IntervalMinutes 30 }
         "3" { Start-ContinuousMonitoring -IntervalMinutes 60 }
-        "4" { Show-QuickMenu }
+        "4" { Install-BasePrograms }
         "5" { Show-ConfigMenu }
         "0" { 
             Write-Host "Encerrando agente..."
