@@ -467,20 +467,19 @@ function Start-ContinuousMonitoring {
     }
 }
 
-function Install-BasePrograms {
-    winget install --id Google.Chrome --verbose --silent --force --accept-source-agreements
-    winget install --id Microsoft.VCRedist.2012.x64 --verbose --silent --force --accept-source-agreements
-    winget install --id Microsoft.VCRedist.2013.x64 --verbose --silent --force --accept-source-agreements
-    winget install --id Microsoft.VCRedist.2015+.x64 --verbose --silent --force --accept-source-agreements
-    winget install --id Spotify.Spotify --verbose --silent --force --accept-source-agreements
-    winget install --id Discord.Discord --verbose --silent --force --accept-source-agreements
-    winget install --id RARLab.WinRAR --verbose --silent --force --accept-source-agreements
-    winget install --id Valve.Steam --verbose --silent --force --accept-source-agreements
-    winget install --id Microsoft.Office --verbose --silent --force --accept-source-agreements
+function Export-Programs {
+    $computerName = $env:COMPUTERNAME
+    $nomeArquivo = "$computerName-packages"
+    Write-Host "Exportando programas para $nomeArquivo.json..."
+    winget export -o ".\$nomeArquivo.json"
+    Write-Host "Exportação concluída para $nomeArquivo.json"
 }
 
 function Import-BasePrograms{
-   winget import -i .\packages.json --ignore-unavailable 
+    $computerName = $env:COMPUTERNAME
+    $nomeArquivo = "$computerName-packages"
+    Write-Host "Importando programas de $nomeArquivo.json..."
+    winget import -i .\$nomeArquivo.json --ignore-unavailable --accept-source-agreements
 }
 
 function Save-Files{
@@ -626,23 +625,25 @@ function Show-MainMenu {
     Write-Host "1. Diagnostico Completo (uma vez)"
     Write-Host "2. Monitoramento Continuo (30 min)"
     Write-Host "3. Monitoramento Continuo (60 min)"
-    Write-Host "4. Instalar Programas Bases"
-    Write-Host "5. Salvar Arquivos"
-    Write-Host "6. Menu Rapido"
-    Write-Host "7. Configuracoes"
+    Write-Host "4. Exportar programas"
+    Write-Host "5. Importar programas"
+    Write-Host "6. Salvar Arquivos"
+    Write-Host "7. Menu Rapido"
+    Write-Host "8. Configuracoes"
     Write-Host "0. Sair"
     Write-Host "=================================================="
     
-    $choice = Read-Host "Escolha uma opcao (0-7)"
+    $choice = Read-Host "Escolha uma opcao (0-8)"
     
     switch ($choice) {
         "1" { Start-SystemAgent; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
         "2" { Start-ContinuousMonitoring -IntervalMinutes 30 }
         "3" { Start-ContinuousMonitoring -IntervalMinutes 60 }
-        "4" { Import-BasePrograms }
-        "5" { Save-Files }
-        "6" { Show-QuickMenu }
-        "7" { Show-ConfigMenu }
+        "4" { Export-Programs; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
+        "5" { Import-BasePrograms; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
+        "6" { Save-Files; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
+        "7" { Show-QuickMenu }
+        "8" { Show-ConfigMenu }
         "0" { 
             Write-Host "Encerrando agente..."
             exit
