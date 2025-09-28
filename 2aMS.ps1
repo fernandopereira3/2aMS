@@ -483,8 +483,8 @@ function Import-BasePrograms{
 }
 
 function Save-Files{
-     Write-Host "Indo ao servidor, verifique que esta tudo certo."
-     $Server = "//10.0.0.2/programas/AUTO_BACKUP"
+     Write-Host "Insira o endereco do servidor de backup"
+     $Server = Read-Host "Exemplo: //10.0.0.2/programas/AUTO_BACKUP"
      
      # Verificar se o servidor está acessível
      try {
@@ -494,7 +494,7 @@ function Save-Files{
              return
          }
          
-         cd $Server
+         Set-Location $Server
          Write-Host "Conectado ao servidor com sucesso."
      }
      catch [System.Management.Automation.ItemNotFoundException] {
