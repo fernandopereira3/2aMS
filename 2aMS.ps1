@@ -489,7 +489,7 @@ function Save-Files{
      # Verificar se o servidor está acessível
      try {
          if (-not (Test-Path $Server)) {
-             Write-Host "ERRO: Servidor não encontrado: $Server" 
+             Write-Host "ERRO: $Server - não encontrado: " 
              Write-Host "Processo interrompido. Verifique a conexão de rede e tente novamente." 
              return
          }
