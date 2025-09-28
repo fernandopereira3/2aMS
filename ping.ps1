@@ -43,7 +43,7 @@ function Test-Ping1 {
         $ip = $base + "." + $local + "." + $i
         Write-Host "Testando $ip" -NoNewline
         
-        if (Test-Connection -TargetName $ip -Count 1 -Quiet) {
+        if (ping -c1 $ip -Count 1 -Quiet -a) {
             Write-Host " - Conectado" -ForegroundColor Green
             "$ip - Conectado" | Out-File -FilePath $logFile -Append
         } else {
