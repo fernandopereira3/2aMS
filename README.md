@@ -1,8 +1,14 @@
 # 🤖 Agente Autônomo de Monitoramento de Sistema (2aMS)
 
-Um agente inteligente em PowerShell que coleta informações completas sobre o status da máquina de forma autônoma, agora com **interface gráfica** e funcionalidades avançadas de gerenciamento de sistema.
+Um agente inteligente em PowerShell que coleta informações completas sobre o status da máquina de forma autônoma, com **interface gráfica** e funcionalidades avançadas de gerenciamento de sistema e diagnóstico de rede.
 
 ## 🎯 Novidades da Versão Atual
+
+### 🌐 **Ferramentas de Diagnóstico de Rede**
+- **Teste de Ping Avançado**: Verificação de conectividade com resolução de nomes de host
+- **Mapeamento de Subredes**: Identificação de dispositivos ativos em múltiplas subredes
+- **Logs Automáticos**: Registro detalhado de resultados com data e hora
+- **Versão Linux**: Script shell equivalente para ambientes Unix/Linux
 
 ### 🖥️ **Interface Gráfica (GUI)**
 - **Nova interface visual** com botões organizados por categoria
@@ -34,6 +40,8 @@ Um agente inteligente em PowerShell que coleta informações completas sobre o s
 - Adaptadores de rede ativos
 - Configurações de IP
 - Status das conexões
+- **Teste de Ping**: Verificação de conectividade com resolução de nomes
+- **Mapeamento de Subredes**: Identificação de dispositivos em múltiplas subredes
 
 ### ⚡ Performance
 - Uso da CPU em tempo real
@@ -58,14 +66,15 @@ Um agente inteligente em PowerShell que coleta informações completas sobre o s
 - Proteção em tempo real
 - Última verificação de antivírus
 
-### 📦 **Gerenciamento de Programas (NOVO)**
+### 📦 **Gerenciamento de Programas**
 - **Verificação do WinGet**: Status de instalação e funcionalidade
 - **Atualização Automática**: `winget upgrade --all` com feedback
 - **Lista de Pacotes**: Visualização de programas instalados via WinGet
 - **Instalação Base**: Programas essenciais (Chrome, Office, Steam, Discord, etc.)
 - **Importação**: Instalação em lote via `packages.json`
+- **Exportação**: Geração de arquivo de pacotes com nome personalizado
 
-### 💾 **Backup e Arquivos (NOVO)**
+### 💾 **Backup e Arquivos**
 - **Save-Files**: Backup automático para servidor de rede
 - **Verificação de Conectividade**: Testa acesso ao servidor antes do backup
 - **Tratamento de Erros**: Mensagens claras para problemas de rede
@@ -83,156 +92,27 @@ Um agente inteligente em PowerShell que coleta informações completas sobre o s
 .\2aMS-GUI.ps1
 ```
 
-**Funcionalidades da GUI:**
-- **17 botões organizados** por categoria de diagnóstico
-- **Cores diferenciadas** para fácil identificação
-- **Barra de status** com feedback em tempo real
-- **Área de resultados** com scroll automático
-- **Logs automáticos** salvos por usuário e data
-
 ### 📝 **Linha de Comando (Clássico)**
 ```powershell
 .\2aMS.ps1
 ```
 
-### Opções Disponíveis
-
-1. **Diagnóstico Único**: Executa uma análise completa uma vez
-2. **Monitoramento Contínuo (30 min)**: Executa análises a cada 30 minutos
-3. **Monitoramento Contínuo (60 min)**: Executa análises a cada 60 minutos
-4. **Sair**: Encerra o agente
-
-### 🔧 **Funcionalidades Avançadas**
-
-#### Instalação de Programas Base
+### 🌐 **Ferramentas de Diagnóstico de Rede**
 ```powershell
-Install-BasePrograms
-```
-**Instala automaticamente:**
-- Google Chrome
-- Microsoft Visual C++ Redistributables (2012, 2013, 2015+)
-- Spotify
-- Discord
-- Steam
-- Microsoft Office
-
-#### Importação de Pacotes
-```powershell
-Import-BasePrograms
-```
-Utiliza o arquivo `packages.json` para instalação em lote.
-
-#### Backup de Arquivos
-```powershell
-Save-Files
-```
-Faz backup para o servidor `ADICIONE O SERVIDOR QUE IRÁ FAZER O BACKUP` com verificação de conectividade.
-
-### Execução como Administrador
-
-Para obter informações mais detalhadas, execute o PowerShell como Administrador:
-
-1. Clique com botão direito no PowerShell
-2. Selecione "Executar como administrador"
-3. Execute o script: `.\2aMS.ps1` ou `.\2aMS-GUI.ps1`
-
-## 📁 Estrutura de Arquivos
-
-O agente gera automaticamente:
-
-- **Logs detalhados**: `system_status_YYYYMMDD_HHMMSS.log`
-- **Relatórios com timestamp** para rastreamento histórico
-
-## 🎯 Status do Sistema
-
-O agente classifica o sistema em três categorias:
-
-- 🟢 **SAUDÁVEL**: Sistema funcionando normalmente
-- 🟡 **ATENÇÃO**: Alguns recursos com uso elevado
-- 🔴 **CRÍTICO**: Problemas detectados que requerem atenção
-
-## ⚙️ Requisitos
-
-- Windows 10/11
-- PowerShell 5.1 ou superior
-- Permissões de usuário (Administrador recomendado)
-
-## 🔧 Personalização
-
-Você pode modificar:
-
-- **Intervalos de monitoramento**: Altere os valores em `Start-ContinuousMonitoring`
-- **Serviços monitorados**: Modifique o array `$criticalServices`
-- **Thresholds de alerta**: Ajuste os valores de CPU/RAM nos alertas
-
-## 📈 Exemplo de Saída
-
-```
-🤖 AGENTE AUTÔNOMO DE MONITORAMENTO DE SISTEMA
-==================================================
-1. Executar diagnóstico completo (uma vez)
-2. Iniciar monitoramento contínuo (30 min)
-3. Iniciar monitoramento contínuo (60 min)
-4. Sair
-==================================================
-
-============================================================
-  INFORMAÇÕES DO SISTEMA OPERACIONAL
-============================================================
-
-WindowsProductName    : Windows 11 Pro
-WindowsVersion        : 25H2
-TotalPhysicalMemory   : 17179869184
-
-🔥 Uso médio da CPU: 15.2%
-🧠 Uso da Memória: 45.8%
-
-🎯 Status Geral do Sistema: SAUDÁVEL
+.\test_con.ps1  # Para Windows
+./test_con.sh   # Para Linux
 ```
 
-## 🛟 Solução de Problemas
+### Opções Disponíveis no Diagnóstico de Rede
 
-### Erro de Permissões
-- Execute como Administrador
-- Verifique a política de execução: `Set-ExecutionPolicy RemoteSigned`
+1. **Teste com local conhecido**: Verifica conectividade em um segmento específico (ex: 192.168.1.x)
+2. **Teste de locais**: Verifica conectividade em múltiplas subredes (ex: 192.168.x.1)
 
-### Comandos não Reconhecidos
-- Alguns comandos podem não estar disponíveis em versões antigas do Windows
-- O agente trata erros automaticamente e continua a execução
+## 🔧 Compatibilidade
 
-### Performance Lenta
-- O primeiro diagnóstico pode demorar mais
-- Execuções subsequentes são mais rápidas
+- **Windows**: Todas as funcionalidades disponíveis
+- **Linux/macOS**: Suporte parcial via script shell para diagnóstico de rede
 
-## 📝 Logs
+## 📄 Licença
 
-Todos os diagnósticos são salvos em arquivos de log com timestamp:
-- Formato: `system_status_YYYYMMDD_HHMMSS.log`
-- Localização: Mesmo diretório do script
-- Conteúdo: Resumo das informações coletadas
-
-## 🔄 Próximas Funcionalidades
-
-### 🚧 Em Desenvolvimento
-
-- Interface gráfica (GUI)
-- Dashboard web
-- Alertas por email
-- ✅ **Limpador de Sistema** (disponível em `limpador.ps1`)
-- Relatórios em HTML
-- Integrações com sistemas de monitoramento
-
-### 💡 Sugestões Bem-Vindas!
-
-Tem ideias para melhorar o 2aMS? Suas sugestões são muito importantes!
-
-- 🐛 Reporte bugs
-- 💡 Sugira novas funcionalidades
-- 🤝 Contribua com código
-- ⭐ Avalie o projeto
-
----
-
-**Desenvolvido para monitoramento autônomo e inteligente de sistemas Windows** 🚀
-
-*"A melhor ferramenta é aquela que evolui com as necessidades da comunidade"* ✨
+Este projeto é distribuído sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
