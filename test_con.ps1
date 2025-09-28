@@ -11,8 +11,8 @@ function Show-MainMenu {
     $op = Read-Host "Escolha uma opcao (0-8)"
     
     switch ($op) {
-        "1" { Test-Ping1; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
-        "2" { Test-Connection2; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
+        "1" { Test-Ping1 }
+        "2" { Test-Connection2 }
         "0" { 
             Write-Host "Encerrando..."
             exit
@@ -64,12 +64,12 @@ function Test-Ping1 {
         }
     }
 
-        $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
+    $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
     if ($del -eq "S" -or $del -eq "s") {
         Remove-Item -Path $logFile -Force
     }
-    
     Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
+    Show-MainMenu
 }
 
 function Test-Connection2 {
@@ -101,8 +101,8 @@ function Test-Connection2 {
     if ($del -eq "S" -or $del -eq "s") {
         Remove-Item -Path $logFile -Force
     }
-
     Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
+    Show-MainMenu
 }
 
 Show-MainMenu
