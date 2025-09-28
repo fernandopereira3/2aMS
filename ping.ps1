@@ -11,7 +11,7 @@ function Show-MainMenu {
     $op = Read-Host "Escolha uma opcao (0-8)"
     
     switch ($op) {
-        "1" { Test-Connection1; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
+        "1" { Test-Ping1; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
         "2" { Test-Connection2; Read-Host "Pressione Enter para continuar"; Show-MainMenu }
         "0" { 
             Write-Host "Encerrando..."
@@ -25,25 +25,25 @@ function Show-MainMenu {
     }
 }
 
-function Test-Connection1 {
+function Test-Ping1 {
     Clear-Host
     $base = Read-Host "Insira a base EX: 192.186 "
     $local = Read-Host "Insira o local"
     
     # Criar nome do arquivo de log com data e hora
-    $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
-    $logFile = "ping_log_${base}_${local}_${timestamp}.log"
+    $timestamp = Get-Date -Format "dd-MM-yyyy_HH-mm"
+    $logFile = "ping_log_${local}_${timestamp}.log"
     
     # Adicionar cabeçalho ao arquivo de log
     "Teste de ping realizado em $(Get-Date)" | Out-File -FilePath $logFile
-    "Base: $base | Local: $local" | Out-File -FilePath $logFile -Append
+    "Local: $local" | Out-File -FilePath $logFile -Append
     "------------------------------------------------" | Out-File -FilePath $logFile -Append
     
     for ($i=1; $i -le 254; $i++){
         $ip = $base + "." + $local + "." + $i
         Write-Host "Testando $ip" -NoNewline
         
-        if (Test-Connection -ComputerName $ip -Count 1 -Quiet) {
+        if (Test-Connection -TargetName $ip -Count 1 -Quiet) {
             Write-Host " - Conectado" -ForegroundColor Green
             "$ip - Conectado" | Out-File -FilePath $logFile -Append
         } else {
