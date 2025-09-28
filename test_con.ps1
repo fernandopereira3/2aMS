@@ -32,7 +32,7 @@ function Test-Ping1 {
     
     # Criar nome do arquivo de log com data e hora
     $timestamp = Get-Date -Format "dd-MM-yyyy_HH-mm"
-    $logFile = "ping_log_${local}_${timestamp}.log"
+    $logFile = "log_${local}_${timestamp}.log"
     
     # Adicionar cabeçalho ao arquivo de log
     "Teste de ping realizado em $(Get-Date)" | Out-File -FilePath $logFile
@@ -45,10 +45,10 @@ function Test-Ping1 {
         
         if (ping $ip -n 1 -a) {
             # Capturar a saída do comando ping para extrair o nome do host
-            $pingOutput = ping $ip -n 1 -a | Out-String
+            $Output = ping $ip -n 1 -a | Out-String
             # Extrair o nome do host da saída do ping (se disponível)
             $hostName = "Desconhecido"
-            if ($pingOutput -match "Disparando para ([^\s]+) \[") {
+            if ($Output -match "Disparando para ([^\s]+) \[") {
                 $hostName = $matches[1]
             }
             
@@ -66,16 +66,43 @@ function Test-Ping1 {
 function Test-Connection2 {
     Clear-Host
     $base = Read-Host "Insira a base EX: 192.186 "
-    for ($i=1; $i -le 254; $i++){
+    
+    # Criar nome do arquivo de log com data e hora
+    $timestamp = Get-Date -Format "dd-MM-yyyy_HH-mm"
+    $logFile = "subredes_${base}_${timestamp}.log"
+    
+    # Adicionar cabeçalho ao arquivo de log
+    "Teste de ping em subredes realizado em $(Get-Date)" | Out-File -FilePath $logFile
+    "Base: $base" | Out-File -FilePath $logFile -Append
+    "------------------------------------------------" | Out-File -FilePath $logFile -Append
+
+    for ($i=1; $i -le 256; $i++){
         $ip = $base + "." + $i + "." + 1
-        Write-Host "Testando $ip" -NoNewline
+        Write-Host "Testando Subrede $ip" -NoNewline
+        
         if (Test-Connection -ComputerName $ip -Count 1 -Quiet) {
-            Write-Host " - Conectado"
+            # Tentar resolver o nome DNS do host
+            try {
+                $dnsInfo = Resolve-DnsName -Name $ip -ErrorAction Stop
+                $hostName = $dnsInfo.NameHost
+                if ([string]::IsNullOrEmpty($hostName)) {
+                    $hostName = "Sem nome registrado"
+                }
+            }
+            catch {
+                $hostName = "Sem nome registrado"
+            }
+            
+            Write-Host " - Conectado - Host: $hostName" -ForegroundColor Green
+            "$ip - Conectado - Host: $hostName" | Out-File -FilePath $logFile -Append
         } else {
-            Write-Host " - Desconectado"
+            Write-Host " - Desconectado" -ForegroundColor Red
+            "$ip - Desconectado" | Out-File -FilePath $logFile -Append
         }
-        }
-     }
+    }
+    
+    Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
+}
 
 Show-MainMenu
 # 192.168.64.1
