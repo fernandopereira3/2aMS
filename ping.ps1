@@ -32,7 +32,7 @@ function Test-Connection1 {
     
     # Criar nome do arquivo de log com data e hora
     $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
-    $logFile = "ping_log_${base}_${local}_${timestamp}.txt"
+    $logFile = "ping_log_${base}_${local}_${timestamp}.log"
     
     # Adicionar cabeçalho ao arquivo de log
     "Teste de ping realizado em $(Get-Date)" | Out-File -FilePath $logFile
