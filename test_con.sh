@@ -70,15 +70,15 @@ test_ping1() {
                 hostname=${hostname%.}
             fi
             
-            echo -e " - \e[32mConectado - Host: $hostname\e[0m"
+            echo -e " - Conectado - Host: $hostname"
             echo "$ip - Conectado - Host: $hostname" >> "$logfile"
         else
-            echo -e " - \e[31mDesconectado\e[0m"
+            echo -e " - Desconectado"
             echo "$ip - Desconectado" >> "$logfile"
         fi
     done
     
-    echo -e "\nResultados salvos em: \e[33m$logfile\e[0m"
+    echo -e "\nResultados salvos em: $logfile"
 }
 
 # Função para testar ping em várias subredes
@@ -100,10 +100,10 @@ test_connection2() {
         echo -n "Testando $ip"
         
         if ping -c 1 -W 1 "$ip" > /dev/null 2>&1; then
-            echo -e " - \e[32mConectado\e[0m"
+            echo -e " - Conectado"
             echo "$ip - Conectado" >> "$logfile"
         else
-            echo -e " - \e[31mDesconectado\e[0m"
+            echo -e " - Desconectado"
             echo "$ip - Desconectado" >> "$logfile"
         fi
     done
