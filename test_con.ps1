@@ -63,6 +63,11 @@ function Test-Ping1 {
             "$ip - Desconectado" | Out-File -FilePath $logFile -Append
         }
     }
+
+    $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
+    if ($del -eq "S") {
+        Remove-Item -Path $logFile -Force
+    }
     
     Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
 }
@@ -92,6 +97,11 @@ function Test-Connection2 {
         }
     }
     
+    $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
+    if ($del -eq "S") {
+        Remove-Item -Path $logFile -Force
+    }
+
     Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
 }
 

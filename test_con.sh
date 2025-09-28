@@ -78,6 +78,8 @@ test_ping1() {
         fi
     done
     
+
+
     echo -e "\nResultados salvos em: $logfile"
 }
 
