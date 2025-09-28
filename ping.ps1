@@ -26,6 +26,7 @@ function Show-MainMenu {
 }
 
 function Test-Connection1 {
+    Clear-Host
     $base = Read-Host "Insira a base EX: 192.186 "
     $local = Read-Host "Insira o local"
    for ($i=1; $i -le 254; $i++){
@@ -39,6 +40,7 @@ function Test-Connection1 {
 }}
 
 function Test-Connection2 {
+    Clear-Host
     $base = Read-Host "Insira a base EX: 192.186 "
     for ($i=1; $i -le 254; $i++){
         $ip = $base + "." + $i + "." + 1
