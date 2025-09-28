@@ -44,8 +44,16 @@ function Test-Ping1 {
         Write-Host "Testando $ip" -NoNewline
         
         if (ping $ip -n 1 -a) {
-            Write-Host " - Conectado" -ForegroundColor Green
-            "$ip - Conectado" | Out-File -FilePath $logFile -Append
+            # Capturar a saída do comando ping para extrair o nome do host
+            $pingOutput = ping $ip -n 1 -a | Out-String
+            # Extrair o nome do host da saída do ping (se disponível)
+            $hostName = "Desconhecido"
+            if ($pingOutput -match "Disparando para ([^\s]+) \[") {
+                $hostName = $matches[1]
+            }
+            
+            Write-Host " - Conectado - Host: $hostName" -ForegroundColor Green
+            "$ip - Conectado - Host: $hostName" | Out-File -FilePath $logFile -Append
         } else {
             Write-Host " - Desconectado" -ForegroundColor Red
             "$ip - Desconectado" | Out-File -FilePath $logFile -Append
