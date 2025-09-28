@@ -29,15 +29,31 @@ function Test-Connection1 {
     Clear-Host
     $base = Read-Host "Insira a base EX: 192.186 "
     $local = Read-Host "Insira o local"
-   for ($i=1; $i -le 254; $i++){
-    $ip = $base + "." + $local + "." + $i
-    Write-Host "Testando $ip" -NoNewline
-    if (Test-Connection -ComputerName $ip -Count 1 -Quiet) {
-        Write-Host " - Conectado"
-    } else {
-        Write-Host " - Desconectado"
+    
+    # Criar nome do arquivo de log com data e hora
+    $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+    $logFile = "ping_log_${base}_${local}_${timestamp}.txt"
+    
+    # Adicionar cabeçalho ao arquivo de log
+    "Teste de ping realizado em $(Get-Date)" | Out-File -FilePath $logFile
+    "Base: $base | Local: $local" | Out-File -FilePath $logFile -Append
+    "------------------------------------------------" | Out-File -FilePath $logFile -Append
+    
+    for ($i=1; $i -le 254; $i++){
+        $ip = $base + "." + $local + "." + $i
+        Write-Host "Testando $ip" -NoNewline
+        
+        if (Test-Connection -ComputerName $ip -Count 1 -Quiet) {
+            Write-Host " - Conectado" -ForegroundColor Green
+            "$ip - Conectado" | Out-File -FilePath $logFile -Append
+        } else {
+            Write-Host " - Desconectado" -ForegroundColor Red
+            "$ip - Desconectado" | Out-File -FilePath $logFile -Append
+        }
     }
-}}
+    
+    Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
+}
 
 function Test-Connection2 {
     Clear-Host
