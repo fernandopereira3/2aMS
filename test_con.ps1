@@ -67,9 +67,14 @@ function Test-Ping1 {
     $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
     if ($del -eq "S" -or $del -eq "s") {
         Remove-Item -Path $logFile -Force
+        Write-Host "Nada aconteceu !" -ForegroundColor Yellow
+        Show-MainMenu 
     }
-    Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
-    Show-MainMenu
+    else {
+        Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
+        Show-MainMenu 
+    }
+    
 }
 
 function Test-Connection2 {
@@ -100,9 +105,13 @@ function Test-Connection2 {
     $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
     if ($del -eq "S" -or $del -eq "s") {
         Remove-Item -Path $logFile -Force
+        Write-Host "Nada aconteceu !" -ForegroundColor Yellow
+        Show-MainMenu 
     }
-    Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
-    Show-MainMenu
+    else {
+        Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
+        Show-MainMenu 
+    }
 }
 
 Show-MainMenu
