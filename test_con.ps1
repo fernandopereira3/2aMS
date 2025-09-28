@@ -64,8 +64,8 @@ function Test-Ping1 {
         }
     }
 
-    $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
-    if ($del -eq "S") {
+        $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
+    if ($del -eq "S" -or $del -eq "s") {
         Remove-Item -Path $logFile -Force
     }
     
@@ -98,7 +98,7 @@ function Test-Connection2 {
     }
     
     $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
-    if ($del -eq "S") {
+    if ($del -eq "S" -or $del -eq "s") {
         Remove-Item -Path $logFile -Force
     }
 
