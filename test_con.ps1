@@ -5,6 +5,7 @@ function Show-MainMenu {
     Write-Host "=================================================="
     Write-Host "1. Teste com local conhecido"
     Write-Host "2. Teste de locais"
+    Write-Host "3. Executar Limpeza"
     Write-Host "0. Sair"
     Write-Host "=================================================="
     
@@ -13,6 +14,7 @@ function Show-MainMenu {
     switch ($op) {
         "1" { Test-Ping1 }
         "2" { Test-Connection2 }
+        "3" { Limpar }
         "0" { 
             Write-Host "Encerrando..."
             exit
@@ -112,6 +114,14 @@ function Test-Connection2 {
         Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
         Show-MainMenu 
     }
+}
+
+function Limpar {
+    Clear-Host
+    Write-Host "Limpando arquivos de log..."
+    Get-ChildItem -Path . -Filter "*.log" | Remove-Item -Force
+    Write-Host "Arquivos de log removidos com sucesso!" -ForegroundColor Green
+    Show-MainMenu
 }
 
 Show-MainMenu
