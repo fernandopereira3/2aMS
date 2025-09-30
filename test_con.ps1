@@ -3,18 +3,20 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass
 function Show-MainMenu {
     Clear-Host
     Write-Host "=================================================="
-    Write-Host "1. Teste com local conhecido"
-    Write-Host "2. Teste de locais"
+    Write-Host "1. Teste com IPs"
+    Write-Host "2. Teste de Sub-redes"
     Write-Host "3. Executar Limpeza"
+    Write-Host "4. Teste Completo"
     Write-Host "0. Sair"
     Write-Host "=================================================="
     
-    $op = Read-Host "Escolha uma opcao (0-8)"
+$op = Read-Host "Escolha uma opcao (0-8)"
     
     switch ($op) {
-        "1" { Test-Ping1 }
-        "2" { Test-Connection2 }
+        "1" { Test-Ips }
+        "2" { Test-Subnets }
         "3" { limpar_log }
+        "4" { Test-completo }
         "0" { 
             Write-Host "Encerrando..."
             exit
@@ -36,7 +38,7 @@ function limpar_log {
 }
 
 
-function Test-Ping1 {
+function Test-Ips {
     Clear-Host
     $base = Read-Host "Insira a base EX: 192.186 "
     $local = Read-Host "Insira o local"
@@ -88,7 +90,7 @@ function Test-Ping1 {
     
 }
 
-function Test-Connection2 {
+function Test-Subnets {
     Clear-Host
     $base = Read-Host "Insira a base EX: 192.186 "
     
@@ -123,6 +125,50 @@ function Test-Connection2 {
         Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
         Show-MainMenu 
     }
+}
+
+function Test-completo {
+    Clear-Host
+    $base = "10.14"
+    
+    # Criar arquivo de log com timestamp
+    $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    $logFile = ".\ping_completo_$timestamp.log"
+    
+    # Adicionar cabeçalho ao arquivo de log
+    "Teste de conexão completo iniciado em $(Get-Date)" | Out-File -FilePath $logFile
+    "IP - Status - Hostname" | Out-File -FilePath $logFile -Append
+    "----------------------------------------" | Out-File -FilePath $logFile -Append
+    
+    for ($i=1; $i -le 254; $i++) {
+        for ($j=1; $j -le 254; $j++) {
+            $ip = "$base.$i.$j"
+            Write-Host "Testando $ip" -NoNewline
+            
+            if (Test-Connection -ComputerName $ip -Count 1 -Quiet) {
+                # Tentar resolver o nome DNS do host
+                try {
+                    $dnsInfo = Resolve-DnsName -Name $ip -ErrorAction Stop
+                    $hostName = $dnsInfo.NameHost
+                    if ([string]::IsNullOrEmpty($hostName)) {
+                        $hostName = "Sem nome registrado"
+                    }
+                }
+                catch {
+                    $hostName = "Sem nome registrado"
+                }
+                
+                Write-Host " - Conectado - Host: $hostName" -ForegroundColor Green
+                "$ip - Conectado - Host: $hostName" | Out-File -FilePath $logFile -Append
+            } else {
+                Write-Host " - Desconectado" -ForegroundColor Red
+                "$ip - Desconectado" | Out-File -FilePath $logFile -Append
+            }
+        }
+    }
+    
+    Write-Host "`nTeste completo finalizado. Resultados salvos em $logFile" -ForegroundColor Cyan
+    Show-MainMenu
 }
 
 Show-MainMenu
