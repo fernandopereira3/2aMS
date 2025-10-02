@@ -10,7 +10,7 @@ function Show-MainMenu {
     Write-Host "0. Sair"
     Write-Host "=================================================="
     
-$op = Read-Host "Escolha uma opcao (0-8)"
+$op = Read-Host "Escolha uma opcao"
     
     switch ($op) {
         "1" { Test-Ips }
