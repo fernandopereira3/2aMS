@@ -18,6 +18,7 @@ $op = Read-Host "Escolha uma opcao (0-8)"
         "3" { limpar_log }
         "4" { Test-completo }
         "0" { 
+            Clear-Host
             Write-Host "Encerrando..."
             exit
         }
