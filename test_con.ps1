@@ -20,6 +20,7 @@ $op = Read-Host "Escolha uma opcao (0-8)"
         "0" { 
             Clear-Host
             Write-Host "Encerrando..."
+            Start-Sleep -Seconds 2
             exit
         }
         default {
