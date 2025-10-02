@@ -79,17 +79,16 @@ function Test-Ips {
         }
     }
 
-    $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
+    $del = Read-Host "Deseja apagar o arquivo de log? (S/N)"
     if ($del -eq "S" -or $del -eq "s") {
         Remove-Item -Path $logFile -Force
-        Write-Host "Nada aconteceu !" -ForegroundColor Yellow
+        Write-Host "Arquivo de log removido com sucesso!" -ForegroundColor Yellow
         Show-MainMenu 
     }
     else {
         Write-Host "`nResultados salvos em: $logFile" -ForegroundColor Yellow
         Show-MainMenu 
     }
-    
 }
 
 function Test-Subnets {
@@ -117,10 +116,10 @@ function Test-Subnets {
         }
     }
     
-    $del = Write-Host "Deseja apagar o arquivo de log? (S/N)"
+    $del = Read-Host "Deseja apagar o arquivo de log? (S/N)"
     if ($del -eq "S" -or $del -eq "s") {
         Remove-Item -Path $logFile -Force
-        Write-Host "Nada aconteceu !" -ForegroundColor Yellow
+        Write-Host "Arquivo de log removido com sucesso!" -ForegroundColor Yellow
         Show-MainMenu 
     }
     else {
