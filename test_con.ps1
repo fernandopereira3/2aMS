@@ -133,7 +133,7 @@ function Test-completo {
     $base = "10.14"
     
     # Criar arquivo de log com timestamp
-    $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    $timestamp = Get-Date -Format "dd-MM-yyyy_HH-mm"
     $logFile = ".\ping_completo_$timestamp.log"
     
     # Adicionar cabeçalho ao arquivo de log

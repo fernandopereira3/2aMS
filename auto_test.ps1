@@ -13,7 +13,6 @@ $logFile = ".\ping_completo_$timestamp.log"
 for ($i=1; $i -le 254; $i++) {
     for ($j=1; $j -le 254; $j++) {
         $ip = "$base.$i.$j"
-        Write-Host "Testando $ip" -NoNewline
         
         if (Test-Connection -ComputerName $ip -Count 1 -Quiet) {
             # Tentar resolver o nome DNS do host
@@ -28,10 +27,9 @@ for ($i=1; $i -le 254; $i++) {
                 $hostName = "Sem nome registrado"
             }
             
-            Write-Host " - Conectado - Host: $hostName" -ForegroundColor Green
+            
             "$ip - Conectado - Host: $hostName" | Out-File -FilePath $logFile -Append
         } else {
-            Write-Host " - Desconectado" -ForegroundColor Red
             "$ip - Desconectado" | Out-File -FilePath $logFile -Append
         }
     }
